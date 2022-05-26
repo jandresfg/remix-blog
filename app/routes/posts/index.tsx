@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 export const loader = async () => {
   return json({
@@ -17,10 +17,18 @@ export const loader = async () => {
 };
 export default function Posts() {
   const { posts } = useLoaderData();
-  console.log("🚀 ~ file: index.tsx ~ line 20 ~ Posts ~ posts", posts);
   return (
     <main>
       <h1>Posts</h1>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.slug}>
+            <Link to={post.slug} className="undeline text-blue-600">
+              {post.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }
