@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, Outlet } from "@remix-run/react";
 import { getPosts } from "~/models/post.server";
 import { json } from "@remix-run/node";
 
@@ -27,7 +27,9 @@ export default function PostAdmin() {
             ))}
           </ul>
         </nav>
-        <main className="col-span-4 md:col-span-3">...</main>
+        <main className="col-span-4 md:col-span-3">
+          <Outlet />
+        </main>
       </div>
     </div>
   );
