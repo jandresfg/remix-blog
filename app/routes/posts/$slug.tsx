@@ -4,6 +4,7 @@ import type { LoaderFunction } from "@remix-run/node";
 import type { Post } from "~/models/post.server";
 import { getPost } from "~/models/post.server";
 import invariant from "tiny-invariant";
+import { marked } from "marked";
 
 type LoaderData = { post: Post };
 
@@ -19,7 +20,7 @@ export default function PostSlug() {
   return (
     <main className="mx-auto max-w-4xl">
       <h1 className="my-6 border-b-2 text-center text-3xl">{post.title}</h1>
-      <p>{post.markdown}</p>
+      <p dangerouslySetInnerHTML={{ __html: marked(post.markdown) }} />
     </main>
   );
 }
