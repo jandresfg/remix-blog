@@ -1,4 +1,4 @@
-import { Form } from "@remix-run/react";
+import { Form, useActionData } from "@remix-run/react";
 import { createPost } from "~/models/post.server";
 import { redirect, json } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
@@ -34,22 +34,28 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function NewPost() {
+  const errors = useActionData();
   return (
     <Form method="post">
       <p>
         <label>
           Post title:{" "}
+          {errors?.title && <em className="text-red-600">{errors.title}</em>}
           <input type="text" name="title" className={inputClassName} />
         </label>
       </p>
       <p>
         <label>
           Post slug:{" "}
+          {errors?.slug && <em className="text-red-600">{errors.slug}</em>}
           <input type="text" name="slug" className={inputClassName} />
         </label>
       </p>
       <p>
         <label htmlFor="markdown">Markdown:</label>
+        {errors?.markdown && (
+          <em className="text-red-600">{errors.markdown}</em>
+        )}
         <br />
         <textarea
           name="markdown"
