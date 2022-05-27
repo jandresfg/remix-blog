@@ -1,11 +1,12 @@
 import { Form } from "@remix-run/react";
 import { createPost } from "~/models/post.server";
 import { redirect } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
 
 const inputClassName =
   "w-full rounded border border-gray-500 px-2 py-1 text-lg";
 
-export const action = async ({ request }) => {
+export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const title = formData.get("title");
   const slug = formData.get("slug");
