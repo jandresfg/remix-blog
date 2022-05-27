@@ -1,16 +1,32 @@
 import { Form } from "@remix-run/react";
 import { createPost } from "~/models/post.server";
-import { redirect } from "@remix-run/node";
+import { redirect, json } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
 
 const inputClassName =
   "w-full rounded border border-gray-500 px-2 py-1 text-lg";
+
+type ActionData =
+  | { title: null | string; slug: null | string; markdown: null | string }
+  | undefined;
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const title = formData.get("title");
   const slug = formData.get("slug");
   const markdown = formData.get("markdown");
+
+  const errors: ActionData = {
+    title: title ? null : "title is required",
+    slug: slug ? null : "slug is required",
+    markdown: markdown ? null : "markdown is required",
+  };
+
+  const hasErrors = Object.values(errors).some((e) => e);
+
+  if (hasErrors) {
+    return json<ActionData>(errors);
+  }
 
   await createPost({ title, slug, markdown });
 
